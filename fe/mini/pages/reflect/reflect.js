@@ -121,7 +121,7 @@ Page({
                         days: config.days()
                   },
                   success: function(res) {
-                        // console.log(res)
+                        // console.logger(res)
                   },
                   fail: console.error
             })
@@ -138,7 +138,7 @@ Page({
                         oid: app.openid,
                   },
                   success: function(res) {
-                        // console.log(res)
+                        // console.logger(res)
                   },
                   fail: console.error
             })
