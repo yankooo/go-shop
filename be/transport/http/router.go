@@ -6,7 +6,7 @@ package http
 如使用token验证，需要放到/openapi/空间下
 */
 func (r *runner) registerRouter() {
-	api := r.e.Group("/api")
+	api := r.e.Group("/se/api")
 	api.POST("/register", r.bs.RegisterAccount)
 	api.POST("/login", r.bs.Login)
 

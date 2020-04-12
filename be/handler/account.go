@@ -1,6 +1,9 @@
 package handler
 
+// cd35a6b862497e74fc3ffe414f559349
+// wxfa3ab17a6f7a4b6a
 import (
+	"github.com/medivhzhan/weapp/v2"
 	"context"
 	"fmt"
 	"github.com/yankooo/school-eco/be/cache"
@@ -34,6 +37,18 @@ func RegisterAccount(ctx context.Context, req *model.Account) (resp *model.Regis
 }
 
 func Login(ctx context.Context, req *model.LoginReq) (*model.Account, error) {
+
+	res, err := weapp.Login("wxfa3ab17a6f7a4b6a", "cd35a6b862497e74fc3ffe414f559349", "code")
+	if err != nil {
+		// 处理一般错误信息
+
+	}
+
+	if err := res.GetResponseError(); err !=nil {
+		// 处理微信返回错误信息
+
+	}
+	fmt.Printf("%+v", res)
 	/*// 校验参数
 	if req.UserName == "" {
 		return &pb.QuerySingleAccountInfoResp{Res: GenInValidParameterRes()}, nil

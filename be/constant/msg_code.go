@@ -3,7 +3,7 @@ package constant
 // school-eco 错误码
 const (
 	// school-eco 服务公用状态码
-	DEAL_SUCCESS   = 10000 //请求处理成功整个项目统一为1
+	DEAL_SUCCESS   = 0 //请求处理成功整个项目统一为1
 	INVALID_PARAMS = 10001
 
 	// web前后端的错误码

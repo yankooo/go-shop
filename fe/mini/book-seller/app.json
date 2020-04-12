@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/publish/publish",
+    "pages/account/account",
+    "pages/start/start",
+    "pages/login/login"
+  ],
+  
+  "window": {
+    "backgroundColor": "#00BFFF",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#00BFFF",
+    "navigationBarTitleText": "大连高校二手书",
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/tabbar/home.png",
+        "selectedIconPath": "/images/tabbar/home_on.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "/images/tabbar/publish.png",
+        "selectedIconPath": "/images/tabbar/publish_on.png"
+      },
+      {
+        "pagePath": "pages/account/account",
+        "text": "用户中心",
+        "iconPath": "/images/tabbar/my.png",
+        "selectedIconPath": "/images/tabbar/my_on.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-popup": "vant/popup/index"
+  }
+}

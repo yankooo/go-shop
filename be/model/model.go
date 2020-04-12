@@ -66,10 +66,9 @@ type LoginResp struct {
 }
 
 type RegisterReq struct {
-	Id          uint64          `json:"id"`
 	NickName    string          `json:"nick_name" binding:"required"`
 	Email       string          `json:"email" binding:"required,email"`
-	OpenId      string          `json:"open_id"`
+	OpenId      string          `json:"open_id" binding:"required"`
 	Mobile      string          `json:"mobile" binding:"required"`
 	Money       decimal.Decimal `json:"money"`
 	Avatar      string          `json:"avatar" binding:"required"` // 头像

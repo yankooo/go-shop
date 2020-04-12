@@ -18,7 +18,7 @@ type bookSeller struct {
 
 func SendResponse(c *gin.Context, httpCode int, retCode int, msg string, data interface{}) {
 	c.JSON(httpCode, gin.H{
-		"retcode": retCode,
+		"ret_code": retCode,
 		"message": msg,
 		"data":    data,
 	})
