@@ -1,5 +1,7 @@
 const app = getApp();
 const config = require("../../config.js");
+let api = require("../../http/api.js")
+let router = require("../../utils/router.js")
 Page({
 
       /**
@@ -15,6 +17,7 @@ Page({
             })
       },
       go(e) {
+            let that = this
             if (e.currentTarget.dataset.status == '1') {
                   if (!app.openid) {
                         wx.showModal({

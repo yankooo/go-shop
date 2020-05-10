@@ -3,7 +3,6 @@ module github.com/yankooo/school-eco/be
 go 1.12
 
 require (
-	git.garena.com/shopee/bg-logistics/go/gocommon/monitor v0.0.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.6.2
 	github.com/gomodule/redigo v2.0.0+incompatible

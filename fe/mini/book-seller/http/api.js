@@ -1,5 +1,5 @@
 module.exports = {
-  getSession:"/api/mp/getSession",
-  login:"/api/mp/login",
-  register:"/api/register"
+  login:"/api/login",
+  register:"/api/register",
+  account:"/openapi/account/info"
 }

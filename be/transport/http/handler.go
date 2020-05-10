@@ -13,14 +13,13 @@ import (
 )
 
 type bookSeller struct {
-
 }
 
 func SendResponse(c *gin.Context, httpCode int, retCode int, msg string, data interface{}) {
 	c.JSON(httpCode, gin.H{
 		"ret_code": retCode,
-		"message": msg,
-		"data":    data,
+		"message":  msg,
+		"data":     data,
 	})
 }
 
@@ -35,18 +34,18 @@ func (b *bookSeller) RegisterAccount(c *gin.Context) {
 	fmt.Printf("req %+v\n", *registerReq)
 
 	var (
-		err error
+		err          error
 		registerResp *model.RegisterResp
 
 		account = &model.Account{
-			Mobile:      registerReq.Mobile,
-			NickName:    registerReq.NickName,
-			OpenId:      registerReq.OpenId,
-			Email:       registerReq.Email,
-			Avatar:      registerReq.Avatar,
-			Gender:      registerReq.Gender,
-			School:      registerReq.School,
-			Major:       registerReq.Major,
+			Mobile:     registerReq.Mobile,
+			NickName:   registerReq.NickName,
+			OpenId:     registerReq.OpenId,
+			Email:      registerReq.Email,
+			Avatar:     registerReq.Avatar,
+			Gender:     registerReq.Gender,
+			School:     registerReq.School,
+			Major:      registerReq.Major,
 			CreateTime: utils.GetTimeNowUnix(),
 			UpdateTime: utils.GetTimeNowUnix(),
 		}
@@ -69,7 +68,7 @@ func (b *bookSeller) Login(c *gin.Context) {
 	}
 
 	var (
-		err       error
+		err     error
 		account *model.Account
 	)
 
@@ -90,21 +89,24 @@ func generateToken(c *gin.Context, account *model.Account) {
 		return
 	}
 	c.SetCookie("token", token, 3600, "/", "localhost", false, true)
-	SendResponse(c, http.StatusOK, constant.DEAL_SUCCESS, "login success", nil)
+	SendResponse(c, http.StatusOK, constant.DEAL_SUCCESS, "login success", model.LoginResp{
+		ResCode: constant.Success,
+		Phone:   account.Mobile,
+	})
 	return
 }
 
 func (b *bookSeller) QuerySingleAccountInfo(c *gin.Context) {
 	// 参数校验
 	var id uint64
-	accountId, ok  := c.Get("account-id")
+	accountId, ok := c.Get("account-id")
 	if id, ok = accountId.(uint64); !ok {
 		SendResponse(c, http.StatusBadRequest, constant.INVALID_PARAMS, "", nil)
 		return
 	}
 
 	var (
-		err error
+		err                  error
 		queryAccountInfoResp *model.QueryAccountResp
 	)
 
@@ -128,7 +130,7 @@ func (b *bookSeller) ModifyAccountInfo(c *gin.Context) {
 
 	// handler调用，修改账号信息
 	var (
-		err error
+		err                   error
 		modifyAccountInfoResp *model.ModifyAccountInfoResp
 	)
 	if modifyAccountInfoResp, err = handler.ModifyAccountInfo(context.Background(), modifyInfoReq); err != nil {

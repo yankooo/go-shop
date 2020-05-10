@@ -13,8 +13,11 @@ App({
       Api,
       router,
       get: req.fetch,
-      init:init,
-      userinfo:{},
+      init: init,
+      userinfo:{
+            code:'',
+            phone: '',
+      },
       post: (url, data, option) => {
             if (!option) {
                   option = {}

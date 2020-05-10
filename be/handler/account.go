@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/yankooo/school-eco/be/cache"
+	"github.com/yankooo/school-eco/be/config"
 	"github.com/yankooo/school-eco/be/constant"
 	"github.com/yankooo/school-eco/be/logger"
 	"github.com/yankooo/school-eco/be/model"
@@ -33,22 +34,31 @@ func RegisterAccount(ctx context.Context, req *model.Account) (resp *model.Regis
 		// 缓存写失败也无所谓，查询会去数据库查询 TODO 大量缓存不命中会
 		logger.Errorf("cache insert fail with: %+v", err)
 	}
-	return &model.RegisterResp{ResCode:constant.AccountRegisterSuccess}, nil
+	return &model.RegisterResp{ResCode:constant.Success}, nil
 }
 
 func Login(ctx context.Context, req *model.LoginReq) (*model.Account, error) {
-
-	res, err := weapp.Login("wxfa3ab17a6f7a4b6a", "cd35a6b862497e74fc3ffe414f559349", "code")
+	var account = &model.Account{}
+	res, err := weapp.Login(config.GlobalConf().AppId, config.GlobalConf().Secret, req.Code)
 	if err != nil {
 		// 处理一般错误信息
-
+		logger.Errorf("user Code: %s login error: %+v", req.Code, err)
 	}
 
 	if err := res.GetResponseError(); err !=nil {
 		// 处理微信返回错误信息
-
+		// 处理一般错误信息
+		logger.Errorf("user Code: %s login error: %+v", req.Code, err)
 	}
-	fmt.Printf("%+v", res)
+
+	// 获取手机号码
+	if decryptMobile, err := weapp.DecryptMobile(res.SessionKey, req.EncryptedData, req.IV ); err != nil {
+		// 处理一般错误信息
+		logger.Errorf("user Code: %s login error: %+v", req.Code, err)
+	} else {
+		account.Mobile = decryptMobile.PhoneNumber
+		fmt.Printf("%+v", decryptMobile)
+	}
 	/*// 校验参数
 	if req.UserName == "" {
 		return &pb.QuerySingleAccountInfoResp{Res: GenInValidParameterRes()}, nil
@@ -85,7 +95,7 @@ func Login(ctx context.Context, req *model.LoginReq) (*model.Account, error) {
 		NickName:   accountInfo.NickName,
 		Email:      accountInfo.Email,
 		CreateTime: accountInfo.CreateTime}*/
-	return &model.Account{}, nil
+	return account, nil
 }
 
 func QuerySingleAccountInfo(ctx context.Context, accountId uint64) (*model.QueryAccountResp, error) {

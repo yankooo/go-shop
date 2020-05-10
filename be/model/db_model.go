@@ -17,6 +17,7 @@ type Account struct {
 	Description string          `json:"description"`
 	CreateTime  int64           `json:"create_time"`
 	UpdateTime  int64           `json:"update_time"`
+	SessionKey  string          `json:"session_key"`
 }
 
 type Book struct {

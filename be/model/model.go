@@ -7,12 +7,14 @@ import (
 
 /****************配置******************/
 type BookSellerConf struct {
-	Port         string       `json:"port"`
-	ListenWay    string       `json:"listen_way"`
+	Port         string        `json:"port"`
+	ListenWay    string        `json:"listen_way"`
 	Pprof        *Pprof        `json:"pprof"`
 	Redis        *Redis        `json:"redis"`
 	Mysql        *Mysql        `json:"mysql"`
 	LoggerConfig *LoggerConfig `json:"logger_config"`
+	AppId        string        `json:"app_id"`
+	Secret       string        `json:"secret"`
 }
 
 type Pprof struct {
@@ -57,12 +59,17 @@ type Claims struct {
 
 /****************请求结构体***********/
 type LoginReq struct {
-	UserName string `json:"user_name" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Code          string `json:"code" binding:"required"`
+	UserName      string `json:"user_name"`
+	Password      string `json:"password"`
+	EncryptedData string `json:"encrypted_data"`
+	IV            string `json:"iv"`
 }
 
 type LoginResp struct {
-	Token string `json:"token"`
+	ResCode int    `json:"res_code"`
+	Token   string `json:"token"`
+	Phone   string `json:"phone"`
 }
 
 type RegisterReq struct {

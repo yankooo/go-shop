@@ -1,4 +1,4 @@
-const app = getApp();
+let app = getApp();
 let api = require("../../http/api.js")
 let router = require("../../utils/router.js")
 Page({
@@ -6,12 +6,19 @@ Page({
        * 页面的初始数据
        */
       data: {
+            sessionKey :'',
             ids: -1,
             phone: '',
             wxnum: '',
             qqnum: '',
             email: '',
             campus: JSON.parse(app.init.data).campus,
+      },
+      onShow() {
+            console.log(app.userinfo)
+            this.setData({
+                  userinfo: app.userinfo
+            })
       },
       choose(e) {
             let that = this;
@@ -36,13 +43,9 @@ Page({
                   title: '获取手机号中...',
             })
             wx.login({
-                  success(re) {
+                  success(res) {
                         // 发送请求获取信息， getSession
-                        console.log(re.code)
-                        wx.hideLoading();
-                        that.setData({
-                              phone: "18512605170"
-                        })
+                        that.sendLogin(e, res.code)
                   },
                   fail: err => {
                         console.error(err);
@@ -53,6 +56,41 @@ Page({
                               duration: 2000
                         })
                   }
+            })
+      },
+      // 发送登录请求，获取code
+      sendLogin(e, code) {
+            let that = this
+            // 发送post登录请求换取sessionKey和openId
+            let data = {
+                  code: code,
+                  encrypted_data: e.detail.encryptedData,
+                  iv: e.detail.iv,
+            }
+            app.post(api.login, JSON.stringify(data)).then(res => {
+                  wx.hideLoading()
+                  let msg = ""
+                  if (res.res_code == -1) {
+                        msg = "该用户已经注册，请直接登录"
+                  } else if (res.res == 100001) {
+
+                  } else {
+                        msg = "登录成功"
+                        // TODO 用户信息设置到变量中
+                        console.log(res)
+                        app.userinfo.phone = res.phone
+                        that.setData({
+                              phone: res.phone
+                        })
+                  }
+            }).catch(err => {
+                  wx.hideLoading()
+                  console.log("err: ", err)
+                  wx.showToast({
+                        title: '获取失败,请重新获取',
+                        icon: 'none',
+                        duration: 2000
+                  })
             })
       },
       wxInput(e) {
